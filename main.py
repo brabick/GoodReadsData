@@ -31,17 +31,11 @@ def read_csv():
     print(compare_date)
     authors = []
     for index, row in df.iterrows():
-        # print(row['Date Read'])
         print(len(str(row['Date Read'])))
         if len(str(row['Date Read'])) > 3:
-            author_read_count = 0
-
-            # print(row['Date Read'])
             read_date = str(row['Date Read'])
             read_date.replace('/', '-')
-            # print(read_date)
             date = datetime.strptime(read_date, '%m/%d/%Y').date()
-
             if date >= compare_date:
                 print(row['Date Read'], row['Title'])
                 if row['Author'] not in authors:
@@ -49,12 +43,29 @@ def read_csv():
                     print('count = ' + str(sr.value_counts()[row['Author']]))
     authors_df = pd.DataFrame({'author':authors, 'nationality':'', 'read count':''})
     for index, row in authors_df.iterrows():
-        print(row['author'] + '!!!!!!!!')
         row['read count'] = sr.value_counts()[row['author']]
     print(authors_df['author'])
     authors_df.to_csv('Source/out.csv')
 
+def analysis():
+    csv = 'Source/authors.csv'
+    fig, ax = plt.subplots()
+    df = pd.read_csv(csv)
+    numbers = []
+    authors = []
+    for number in df['read count']:
+        if number > 1:
+            numbers.append(int(number))
+    print(numbers)
+    for index, row in df.iterrows():
+        if int(row['read count']) > 1:
+            authors.append(row['author'])
+
+    ax.bar(authors, numbers)
+
+    plt.show()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    read_csv()
+    # read_csv()
+    analysis()
