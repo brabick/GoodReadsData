@@ -47,7 +47,7 @@ def read_csv():
     print(authors_df['author'])
     authors_df.to_csv('Source/out.csv')
 
-def analysis():
+def author_read_count():
     csv = 'Source/authors.csv'
     fig, ax = plt.subplots()
     df = pd.read_csv(csv)
@@ -59,13 +59,34 @@ def analysis():
     print(numbers)
     for index, row in df.iterrows():
         if int(row['read count']) > 1:
-            authors.append(row['author'])
+            authors.append(row['author'].split(' ')[1])
 
     ax.bar(authors, numbers)
 
     plt.show()
 
-# Press the green button in the gutter to run the script.
+
+def author_nationality():
+    csv = 'Source/authors.csv'
+    fig, ax = plt.subplots()
+    df = pd.read_csv(csv)
+    nations = []
+    nations_dict = {}
+    for nation in df['nationality']:
+        if nation not in nations:
+            nations.append(nation)
+        if nation not in nations_dict:
+            nations_dict[nation] = 0
+        if nation in nations_dict:
+            nations_dict[nation] += 1
+
+    print(nations_dict)
+    print(nations)
+    ax.bar(nations_dict.keys(), nations_dict.values())
+    plt.show()
+
+
 if __name__ == '__main__':
     # read_csv()
-    analysis()
+    # author_read_count()
+    author_nationality()
