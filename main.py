@@ -80,13 +80,36 @@ def author_nationality():
         if nation in nations_dict:
             nations_dict[nation] += 1
 
-    print(nations_dict)
-    print(nations)
     ax.bar(nations_dict.keys(), nations_dict.values())
     plt.show()
 
+def ratings_count():
+    csv = 'Source/goodreads_library_export (1).csv'
+    df = pd.read_csv(csv)
+    ratings = []
+    ratings_dict = {}
+    fig, ax = plt.subplots()
+
+    for rating in df['My Rating']:
+        if int(rating)> 0:
+            ratings.append(int(rating))
+
+            if rating not in ratings_dict:
+                ratings_dict[rating] = 0
+            if rating in ratings_dict:
+                ratings_dict[rating] += 1
+
+    average = sum(ratings) / len(ratings)
+    most_common_rating = max(set(ratings), key=ratings.count)
+    print(average)
+    print(most_common_rating)
+
+    ax.bar(ratings_dict.keys(), ratings_dict.values())
+
+    plt.show()
 
 if __name__ == '__main__':
     # read_csv()
     # author_read_count()
-    author_nationality()
+    # author_nationality()
+    ratings_count()
