@@ -62,13 +62,14 @@ def author_read_count():
             authors.append(row['author'].split(' ')[1])
 
     ax.bar(authors, numbers)
-
+    plt.setp(ax.get_xticklabels(), rotation=15, horizontalalignment='right')
     plt.show()
 
 
 def author_nationality():
     csv = 'Source/authors.csv'
     fig, ax = plt.subplots()
+    plt.setp(ax.get_xticklabels(), rotation=15, horizontalalignment='right')
     df = pd.read_csv(csv)
     nations = []
     nations_dict = {}
@@ -91,7 +92,7 @@ def ratings_count():
     fig, ax = plt.subplots()
 
     for rating in df['My Rating']:
-        if int(rating)> 0:
+        if int(rating) > 0:
             ratings.append(int(rating))
 
             if rating not in ratings_dict:
@@ -108,8 +109,27 @@ def ratings_count():
 
     plt.show()
 
+
+def read_count():
+    csv = 'Source/goodreads_library_export (1).csv'
+    df = pd.read_csv(csv)
+    read_count_dict = {}
+    fig, ax = plt.subplots()
+
+    for index, row in df.iterrows():
+        if int(row[['Read Count']]) > 1:
+            read_count_dict[row['Title']] = row['Read Count']
+
+    print(read_count_dict)
+    plt.setp(ax.get_xticklabels(), rotation=10, horizontalalignment='right')
+    ax.bar(read_count_dict.keys(), read_count_dict.values())
+
+    plt.show()
+
+
 if __name__ == '__main__':
     # read_csv()
     # author_read_count()
     # author_nationality()
-    ratings_count()
+    # ratings_count()
+    read_count()
