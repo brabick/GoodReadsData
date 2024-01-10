@@ -24,7 +24,6 @@ def read_csv():
         for value in read:
             dict[key] = value
 
-
     date_str = '01-01-2023'
     compare_date = datetime.strptime(date_str, '%m-%d-%Y').date()
     print(type(compare_date))
@@ -127,9 +126,44 @@ def read_count():
     plt.show()
 
 
+def currently_reading():
+    csv = 'Source/goodreads_library_export (1).csv'
+    df = pd.read_csv(csv)
+    currently_reading_list = []
+
+    for index, row in df.iterrows():
+        if row['Exclusive Shelf'] == 'currently-reading':
+            currently_reading_list.append(row['Title'])
+    print(len(currently_reading_list))
+    print(currently_reading_list)
+
+
+def pages():
+    csv = 'Source/goodreads_library_export (1).csv'
+    df = pd.read_csv(csv)
+    pages_list = []
+    date_str = '01-01-2023'
+    compare_date = datetime.strptime(date_str, '%m-%d-%Y').date()
+    for index, row in df.iterrows():
+        if row['Exclusive Shelf'] == 'read':
+            if len(str(row['Date Read'])) > 3:
+                print(row)
+                read_date = str(row['Date Read'])
+                read_date.replace('/', '-')
+                date = datetime.strptime(read_date, '%m/%d/%Y').date()
+                if date >= compare_date:
+                    pages_list.append(row['Number of Pages'])
+
+    print(pages_list)
+    print(min(pages_list))
+    print(max(pages_list))
+
+
 if __name__ == '__main__':
     # read_csv()
     # author_read_count()
     # author_nationality()
     # ratings_count()
-    read_count()
+    # read_count()
+    # currently_reading()
+    pages()
