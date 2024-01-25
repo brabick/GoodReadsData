@@ -158,12 +158,43 @@ def pages():
     print(min(pages_list))
     print(max(pages_list))
 
+# fiction vs non-fiction
+
+def gender_count():
+    csv = 'Source/authors.csv'
+    fig, ax = plt.subplots()
+    fig1, ax1 = plt.subplots()
+    plt.setp(ax.get_xticklabels(), horizontalalignment='right')
+    plt.setp(ax1.get_xticklabels(), horizontalalignment='right')
+    df = pd.read_csv(csv)
+
+    genders_cumulative_dict = {'f': 0,
+                    'm': 0}
+    genders_distinct_dict = {
+        'f': 0,
+        'm': 0
+    }
+    for index, row in df.iterrows():
+        if row['gender'] == 'f':
+            genders_cumulative_dict['f'] += row['read count']
+            genders_distinct_dict['f'] += 1
+        if row['gender'] == 'm':
+            genders_cumulative_dict['m'] += row['read count']
+            genders_distinct_dict['m'] += 1
+
+    print(genders_cumulative_dict)
+    print(genders_distinct_dict)
+    ax.bar(genders_cumulative_dict.keys(), genders_cumulative_dict.values())
+    ax1.bar(genders_distinct_dict.keys(), genders_distinct_dict.values())
+    plt.show()
+
 
 if __name__ == '__main__':
     # read_csv()
     # author_read_count()
     # author_nationality()
     # ratings_count()
-    # read_count()
+    read_count()
     # currently_reading()
     pages()
+    gender_count()
