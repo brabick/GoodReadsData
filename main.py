@@ -189,6 +189,10 @@ def gender_count():
     plt.show()
 
 
+def isbn():
+    pass
+
+
 if __name__ == '__main__':
     # read_csv()
     # author_read_count()
